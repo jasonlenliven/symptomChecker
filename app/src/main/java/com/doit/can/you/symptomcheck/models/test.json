@@ -1,0 +1,9 @@
+{
+  "diagName": "something",
+  "url": "url",
+  "symptomsMatched": [
+    "abdominal pain",
+    "headache",
+    "nausea"
+  ]
+}

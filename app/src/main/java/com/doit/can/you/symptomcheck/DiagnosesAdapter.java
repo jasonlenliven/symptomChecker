@@ -1,0 +1,57 @@
+package com.doit.can.you.symptomcheck;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.doit.can.you.symptomcheck.models.Diagnosis;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+
+public class DiagnosesAdapter extends ArrayAdapter<Diagnosis> {
+
+    private  final Context mContext;
+    private final List<Diagnosis> mDiagnoses;
+
+    public DiagnosesAdapter(Context context, List<Diagnosis> diagnoses) {
+        super(context, R.layout.diagnosis_row, diagnoses);
+        this.mContext = context;
+        this.mDiagnoses = diagnoses;
+    }
+
+    @Override
+    public int getCount() {
+        return mDiagnoses.size();
+    }
+
+    @Override
+    public Diagnosis getItem(int i) {
+        return mDiagnoses.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int position, View view, ViewGroup viewGroup) {
+        Diagnosis diagnosis = mDiagnoses.get(position);
+
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View rowView = inflater.inflate(R.layout.diagnosis_row, viewGroup, false);
+        TextView tvCountyName = (TextView) rowView.findViewById(R.id.tvDiagnosisName);
+        tvCountyName.setText(diagnosis.name);
+
+        TextView tvDistance = (TextView) rowView.findViewById(R.id.tvSymptoms);
+        tvDistance.setText(diagnosis.symptoms);
+
+        return rowView;
+    };
+}
