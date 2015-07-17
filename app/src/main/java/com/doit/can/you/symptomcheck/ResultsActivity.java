@@ -19,7 +19,7 @@ public class ResultsActivity extends Activity {
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         myWebView.setWebViewClient(new WebViewClient());
-        myWebView.loadUrl("http://www.anvita.info/wiki/miliaria");
+        myWebView.loadUrl("www.anvita.info/wiki/Miliaria");
     }
 
     @Override

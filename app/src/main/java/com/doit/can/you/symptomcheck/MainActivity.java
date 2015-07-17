@@ -2,8 +2,10 @@ package com.doit.can.you.symptomcheck;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,35 +23,63 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.doit.can.you.symptomcheck.events.SymptomEvent;
 import com.doit.can.you.symptomcheck.models.Diagnosis;
 import com.doit.can.you.symptomcheck.models.SearchCriteria;
+import com.doit.can.you.symptomcheck.models.Symptom;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.squareup.otto.Subscribe;
 
+import org.apache.http.Header;
+import org.apache.http.HttpStatus;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import retrofit.RestAdapter;
 
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    ProgressDialog prgDialog;
     private Button mSearchButton;
     private Button mAddSymptomButton;
     ArrayList<AutoCompleteTextView> symptomsText;
     ListView mDiagnosesLv;
+    private static SymptomsCheckerWebServiceAPI requestClient;
+    DataClient mDataClient;
+    private static String[] mSymptoms;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        mDataClient = DataClient.GetInstance();
+
+        // Instantiate Progress Dialog object
+        prgDialog = new ProgressDialog(this);
+        // Set Progress Dialog Text
+        prgDialog.setMessage("Please wait...");
+        // Set Cancelable as False
+        prgDialog.setCancelable(false);
         loadControls();
+
+
     }
 
     private void loadControls() {
         loadAgeGroups();
 
-
+        loadSymptoms();
         this.symptomsText = new ArrayList<AutoCompleteTextView>();
         //this.symptomsText.add((EditText) this.findViewById(R.id.textView));
 
@@ -91,10 +121,30 @@ public class MainActivity extends Activity {
             }
         });
 
+    }
+
+
+
+    private void loadSymptoms() {
+        prgDialog.show();
+        mDataClient.getSymptoms();
+    }
+
+    @Subscribe
+    public void getSymptomsResponse(SymptomEvent event) {
+        prgDialog.hide();
+        List<Symptom> symptoms = event.getSymptoms();
+        int statusCode = event.getStatusCode();
+        mSymptoms = new String[symptoms.size()];
+
+        for(int i = 0; i< symptoms.size(); i++) {
+            mSymptoms[i] = symptoms.get(i).name;
+        }
+
         loadTextView();
     }
 
-    private void loadAgeGroups() {
+        private void loadAgeGroups() {
         Spinner spinner = (Spinner) findViewById(R.id.age_groups_spinner);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -155,11 +205,12 @@ public class MainActivity extends Activity {
 
     private AutoCompleteTextView generateTextView(){
 
-        // TODO get symptoms list 
+        // TODO get symptoms list
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, SAMPLE_SYMPTOMS);
+                android.R.layout.simple_dropdown_item_1line, mSymptoms);
         AutoCompleteTextView temp = new AutoCompleteTextView(MainActivity.this);
         temp.setHint("symptom");
+        temp.setThreshold(3);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ActionBar.LayoutParams.FILL_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT, 1);
         temp.setLayoutParams(params);
@@ -201,5 +252,14 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Register our EventBus so it'll be ready to Subscribe to events
+        SymptomCheckerApplication.getEventBus().register(this);
+
     }
 }
