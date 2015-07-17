@@ -9,7 +9,9 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:background="#73b800"
+        android:paddingTop="2dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -21,19 +23,21 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:textSize="18sp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColor="#636462"
+            android:background="#eeedef" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="0.5 miles"
             android:id="@+id/tvSymptoms"
             android:fontFamily="FS-Humana-Light-Italic.ttf"
             android:textSize="12sp"
             android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:background="#eeedef"
+            android:paddingLeft="10dp" />
     </LinearLayout>
 
 </RelativeLayout>
