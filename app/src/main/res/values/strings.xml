@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string-array name="age_group_array">
-        <item>Newborn</item>
+        <item>newborn</item>
         <item>1-10</item>
         <item>11-20</item>
         <item>21-30</item>
