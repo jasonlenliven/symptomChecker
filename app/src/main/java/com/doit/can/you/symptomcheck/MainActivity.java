@@ -191,7 +191,7 @@ public class MainActivity extends Activity {
     }
 
     @Subscribe
-    public void getAuthResponse(DiagnosesResponseEvent event){
+    public void getDiagResponse(DiagnosesResponseEvent event){
         prgDialog.hide();
 
         if(event.getStatusCode() == 200){
