@@ -23,6 +23,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.doit.can.you.symptomcheck.events.DiagnosesResponseEvent;
 import com.doit.can.you.symptomcheck.events.SymptomEvent;
 import com.doit.can.you.symptomcheck.models.Diagnosis;
 import com.doit.can.you.symptomcheck.models.SearchCriteria;
@@ -186,6 +187,20 @@ public class MainActivity extends Activity {
         Log.i(TAG, json);
 
         //TODO hit search service
+        mDataClient.getDiagnoses(sc);
+    }
+
+    @Subscribe
+    public void getAuthResponse(DiagnosesResponseEvent event){
+        prgDialog.hide();
+
+        if(event.getStatusCode() == 200){
+            Log.i(TAG, "Successfully received diagnoses");
+
+        }
+        else{
+            Log.e(TAG, "failed to perform search. status: " + event.getStatusCode());
+        }
     }
 
     private static final String[] SAMPLE_SYMPTOMS = new String[] {

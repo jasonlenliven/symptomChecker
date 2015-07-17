@@ -47,7 +47,7 @@ public class DiagnosesAdapter extends ArrayAdapter<Diagnosis> {
 
         View rowView = inflater.inflate(R.layout.diagnosis_row, viewGroup, false);
         TextView tvCountyName = (TextView) rowView.findViewById(R.id.tvDiagnosisName);
-        tvCountyName.setText(diagnosis.name);
+        tvCountyName.setText(diagnosis.diagName);
 
         TextView tvDistance = (TextView) rowView.findViewById(R.id.tvSymptoms);
         tvDistance.setText(diagnosis.symptoms);

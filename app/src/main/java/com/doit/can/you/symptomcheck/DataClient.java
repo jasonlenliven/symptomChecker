@@ -2,7 +2,10 @@ package com.doit.can.you.symptomcheck;
 
 import android.util.Log;
 
+import com.doit.can.you.symptomcheck.events.DiagnosesResponseEvent;
 import com.doit.can.you.symptomcheck.events.SymptomEvent;
+import com.doit.can.you.symptomcheck.models.Diagnosis;
+import com.doit.can.you.symptomcheck.models.SearchCriteria;
 import com.doit.can.you.symptomcheck.models.Symptom;
 
 import java.util.List;
@@ -43,6 +46,29 @@ public class DataClient {
                 Log.i(TAG, "Hit URL: " + response.getUrl());
                 Log.i(TAG, "Received data: " + data);
                 SymptomCheckerApplication.getEventBus().post(new SymptomEvent(data, response.getStatus()));
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                Log.i(TAG, "UNABLE TO HIT WS");
+                Log.i(TAG, "URL " + retrofitError.getUrl());
+                Log.i(TAG, "isNetworkError " + retrofitError.isNetworkError());
+                if (retrofitError.getResponse() != null) {
+                    Log.i(TAG, "REASON: " + retrofitError.getResponse().getReason());
+                    Log.i(TAG, "STATUS " + retrofitError.getResponse().getStatus());
+                }
+            }
+        });
+    }
+
+    public void getDiagnoses(SearchCriteria criteria) {
+        mServiceAPI.postSymptoms(criteria, new Callback<List<Diagnosis>>() {
+
+            @Override
+            public void success(List<Diagnosis> data, Response response) {
+                Log.i(TAG, "Hit URL: " + response.getUrl());
+                Log.i(TAG, "Received data: " + data);
+                SymptomCheckerApplication.getEventBus().post(new DiagnosesResponseEvent(data, response.getStatus()));
             }
 
             @Override
