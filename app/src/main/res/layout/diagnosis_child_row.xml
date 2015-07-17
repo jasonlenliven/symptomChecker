@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal"
+    android:background="@drawable/row_background">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#73b800"
+            android:paddingTop="2dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="San Diego, CA"
+                android:id="@+id/tvDiagnosisName"
+                android:fontFamily="FS-Humana-Light.ttf"
+                android:gravity="left"
+                android:layout_gravity="center_vertical"
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:textColor="#636462"
+                android:background="#eeedef" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0.5 miles"
+                android:id="@+id/tvSymptoms"
+                android:fontFamily="FS-Humana-Light-Italic.ttf"
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical|left"
+                android:singleLine="true"
+                android:background="#eeedef"
+                android:paddingLeft="10dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Lab1, lab2 ..."
+                android:id="@+id/tvLabs"
+                android:background="#eeedef"
+                android:paddingTop="5dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

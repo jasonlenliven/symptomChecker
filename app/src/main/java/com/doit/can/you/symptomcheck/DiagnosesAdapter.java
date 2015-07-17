@@ -58,7 +58,11 @@ public class DiagnosesAdapter extends ArrayAdapter<Diagnosis> {
             if (sym != "") {
                 sym += ", ";
             }
-            sym += s;
+            String val = MainActivity.SYMPTOMS_REV.get(s);
+            if (val == null || val == "") {
+                val = s;
+            }
+            sym += val;
         }
         tvDistance.setText(sym);
 

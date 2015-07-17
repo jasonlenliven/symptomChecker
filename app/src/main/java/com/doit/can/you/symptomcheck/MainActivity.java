@@ -44,6 +44,7 @@ import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.RestAdapter;
 
@@ -57,6 +58,9 @@ public class MainActivity extends Activity {
     private static SymptomsCheckerWebServiceAPI requestClient;
     DataClient mDataClient;
     private static String[] mSymptoms;
+
+    public static HashMap<String, String> SYMPTOMS = new HashMap<String, String>();
+    public static HashMap<String, String> SYMPTOMS_REV = new HashMap<String, String>();
 
 
     @Override
@@ -142,6 +146,8 @@ public class MainActivity extends Activity {
 
         for(int i = 0; i< symptoms.size(); i++) {
             mSymptoms[i] = symptoms.get(i).name;
+            SYMPTOMS.put(symptoms.get(i).name, symptoms.get(i).symptom);
+            SYMPTOMS_REV.put(symptoms.get(i).symptom, symptoms.get(i).name);
         }
 
         loadTextView();
@@ -176,7 +182,11 @@ public class MainActivity extends Activity {
 
         ArrayList<String> symptoms = new ArrayList();
         for(AutoCompleteTextView ev: symptomsText) {
-            symptoms.add(ev.getText().toString());
+            String value =ev.getText().toString();
+            if (SYMPTOMS.containsKey(value)) {
+                value = SYMPTOMS.get(value);
+            }
+            symptoms.add(value);
         }
 
         SearchCriteria sc = new SearchCriteria();
