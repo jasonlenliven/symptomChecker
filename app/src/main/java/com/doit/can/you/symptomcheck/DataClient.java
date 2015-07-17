@@ -8,6 +8,7 @@ import com.doit.can.you.symptomcheck.models.Diagnosis;
 import com.doit.can.you.symptomcheck.models.SearchCriteria;
 import com.doit.can.you.symptomcheck.models.Symptom;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -73,13 +74,14 @@ public class DataClient {
 
             @Override
             public void failure(RetrofitError retrofitError) {
-                Log.i(TAG, "UNABLE TO HIT WS");
+                Log.i(TAG, "UNABLE TO POST WS");
                 Log.i(TAG, "URL " + retrofitError.getUrl());
                 Log.i(TAG, "isNetworkError " + retrofitError.isNetworkError());
                 if (retrofitError.getResponse() != null) {
                     Log.i(TAG, "REASON: " + retrofitError.getResponse().getReason());
                     Log.i(TAG, "STATUS " + retrofitError.getResponse().getStatus());
                 }
+                SymptomCheckerApplication.getEventBus().post(new DiagnosesResponseEvent(new ArrayList<Diagnosis>(), retrofitError.getResponse().getStatus()));
             }
         });
     }

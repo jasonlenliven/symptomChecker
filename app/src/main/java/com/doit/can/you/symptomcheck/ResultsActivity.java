@@ -13,13 +13,19 @@ public class ResultsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Bundle extras = getIntent().getExtras();
+        String value = "www.anvita.info/wiki/";
+        if(extras !=null) {
+            value = extras.getString("url");
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
         WebView myWebView = (WebView) findViewById(R.id.webView);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         myWebView.setWebViewClient(new WebViewClient());
-        myWebView.loadUrl("www.anvita.info/wiki/Miliaria");
+        myWebView.loadUrl(value);
     }
 
     @Override

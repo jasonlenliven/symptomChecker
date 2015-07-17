@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.doit.can.you.symptomcheck.models.Diagnosis;
+import com.doit.can.you.symptomcheck.models.Symptom;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -50,7 +53,14 @@ public class DiagnosesAdapter extends ArrayAdapter<Diagnosis> {
         tvCountyName.setText(diagnosis.diagName);
 
         TextView tvDistance = (TextView) rowView.findViewById(R.id.tvSymptoms);
-        tvDistance.setText(diagnosis.symptoms);
+        String sym = "";
+        for(String s: diagnosis.symptomsMatched) {
+            if (sym != "") {
+                sym += ", ";
+            }
+            sym += s;
+        }
+        tvDistance.setText(sym);
 
         return rowView;
     };

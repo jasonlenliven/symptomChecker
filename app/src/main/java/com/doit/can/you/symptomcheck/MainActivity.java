@@ -107,8 +107,6 @@ public class MainActivity extends Activity {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                DiagnosesAdapter adapter = new DiagnosesAdapter(MainActivity.this, getSampleDiagnoses());
-                mDiagnosesLv.setAdapter(adapter);
                 search();
             }
         });
@@ -117,7 +115,11 @@ public class MainActivity extends Activity {
         mDiagnosesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Diagnosis d = (Diagnosis) adapterView.getItemAtPosition(position);
+                String url = d.url;
+                Log.i(TAG, "Navigating to; " + url);
                 Intent resultActivity = new Intent(MainActivity.this, ResultsActivity.class);
+                resultActivity.putExtra("url", url);
                 startActivity(resultActivity);
             }
         });
@@ -158,6 +160,7 @@ public class MainActivity extends Activity {
     }
 
     private void search() {
+        prgDialog.show();
         Spinner mySpinner = (Spinner)findViewById(R.id.age_groups_spinner);
         String text = mySpinner.getSelectedItem().toString();
         String ageGroup = AgeGroupCode.getCode(text);
@@ -186,7 +189,6 @@ public class MainActivity extends Activity {
 
         Log.i(TAG, json);
 
-        //TODO hit search service
         mDataClient.getDiagnoses(sc);
     }
 
@@ -196,7 +198,8 @@ public class MainActivity extends Activity {
 
         if(event.getStatusCode() == 200){
             Log.i(TAG, "Successfully received diagnoses");
-
+            DiagnosesAdapter adapter = new DiagnosesAdapter(MainActivity.this, event.getDiagnoses());
+            mDiagnosesLv.setAdapter(adapter);
         }
         else{
             Log.e(TAG, "failed to perform search. status: " + event.getStatusCode());
@@ -220,7 +223,6 @@ public class MainActivity extends Activity {
 
     private AutoCompleteTextView generateTextView(){
 
-        // TODO get symptoms list
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, mSymptoms);
         AutoCompleteTextView temp = new AutoCompleteTextView(MainActivity.this);
@@ -237,11 +239,11 @@ public class MainActivity extends Activity {
 
     private ArrayList<Diagnosis> getSampleDiagnoses() {
         ArrayList<Diagnosis> d = new ArrayList<Diagnosis>();
-        d.add(new Diagnosis("miliaria", "Rash, fever", "https://moreinfo.here"));
-        d.add(new Diagnosis("Sample Diagnosis 2", "Rash, fever", "https://moreinfo.here"));
-        d.add(new Diagnosis("Sample Diagnosis 3", "Rash, fever", "https://moreinfo.here"));
-        d.add(new Diagnosis("Sample Diagnosis 4", "Rash, fever", "https://moreinfo.here"));
-        d.add(new Diagnosis("Sample Diagnosis 5", "Rash, fever", "https://moreinfo.here"));
+//        d.add(new Diagnosis("miliaria", "Rash, fever", "https://moreinfo.here"));
+//        d.add(new Diagnosis("Sample Diagnosis 2", "Rash, fever", "https://moreinfo.here"));
+//        d.add(new Diagnosis("Sample Diagnosis 3", "Rash, fever", "https://moreinfo.here"));
+//        d.add(new Diagnosis("Sample Diagnosis 4", "Rash, fever", "https://moreinfo.here"));
+//        d.add(new Diagnosis("Sample Diagnosis 5", "Rash, fever", "https://moreinfo.here"));
 
         return d;
     }
