@@ -25,7 +25,8 @@
             android:id="@+id/textView2"
             android:layout_below="@+id/textView"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -140,17 +141,21 @@
             android:layout_height="wrap_content"
             android:text="+ Add symptom"
             android:id="@+id/add_sympton_button"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            android:textColor="#5d9eff" />
 
     </LinearLayout>
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Search"
         android:id="@+id/search_button"
         android:layout_below="@+id/linearLayout3"
         android:layout_alignRight="@+id/linearLayout3"
-        android:layout_alignEnd="@+id/linearLayout3" />
+        android:layout_alignEnd="@+id/linearLayout3"
+        android:textColor="#ffffff"
+        android:background="#73b800"
+        android:shadowColor="#d3eaaa" />
 
     <ListView
         android:layout_width="wrap_content"
